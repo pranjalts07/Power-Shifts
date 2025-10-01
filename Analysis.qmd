@@ -1,0 +1,16 @@
+---
+title: "Power-Shifts"
+author: "Pranjal Tariga Suresh & Shashank Jayakumar"
+format: pdf
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+
+# Load dataset
+energy <- read_csv("data.csv")
+
+# Preview first few rows
+head(energy)
+```
