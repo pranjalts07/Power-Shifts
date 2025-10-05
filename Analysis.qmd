@@ -25,18 +25,186 @@ library(ggplot2)
 energy <- read_csv("data.csv")
 ```
 
-
-# Data overview
-
-```{r} 
-head(energy)
-```
+# 1.Data overview
 
 ```{r}
 dim(energy) # Dimensions 
 ```
 
 ```{r}
-glimpse(energy) # Structure of the dataset 
+dplyr::summarise(
+  energy,
+  n_countries = dplyr::n_distinct(Country),
+  n_regions   = dplyr::n_distinct(Region),
+  n_types     = dplyr::n_distinct(Type),
+  year_min    = min(Year, na.rm = TRUE),
+  year_max    = max(Year, na.rm = TRUE)
+)
 ```
+
+```{r}
+energy_clean <- energy %>%
+  dplyr::rename(energy_ej = `Energy consumption (in Exajoules)`)
+
+names(energy_clean)
+```
+```{r}
+dplyr::count(energy_clean, Type, sort = TRUE)
+```
+
+# 2.Checking missing values
+
+```{r}
+sum(is.na(energy_clean)) # total NAs in the entire data frame
+```
+
+```{r}
+
+colSums(is.na(energy_clean)) # NAs by column (counts)
+```
+
+```{r}
+range(energy_clean$Year, na.rm = TRUE)
+```
+
+``` r
+# If we had NAs in the dataset we could have use this code chunk to get rid of NAs
+energy_clean <- energy_clean %>%
+  filter(!is.na(Year), !is.na(Type), !is.na(energy_ej))
+```
+
+```{r}
+#| label: summarize-year-type
+
+energy_summary <- energy_clean %>%
+  dplyr::group_by(Year, Type) %>%
+  dplyr::summarize(
+    total = sum(energy_ej, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+dplyr::slice_head(energy_summary, n = 10)
+
+```
+
+# VIZ-1
+
+```{r}
+#| label: viz-total-energy-bars-yearly
+
+energy_total <- energy_clean %>%
+  dplyr::group_by(Year) %>%
+  dplyr::summarize(total_ej = sum(energy_ej, na.rm = TRUE), .groups = "drop")
+
+ggplot(energy_total, aes(x = factor(Year), y = total_ej)) +
+  geom_col() +
+  labs(
+    title = "Global Energy Consumption by Year (1965–2021)",
+    x = "Year",
+    y = "Energy (EJ)"
+  ) +
+  theme_minimal() +
+  # show every 5th year label so it’s readable
+  scale_x_discrete(breaks = as.character(seq(min(energy_total$Year), max(energy_total$Year), by = 5))) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+In Fig.1 This bar chart shows that global energy consumption has more than tripled between 1965 and 2021. I noticed a slowdown in the late 1970s and early 1980s, which I found was linked to the global oil crisis, before growth picked up again. After 2000, consumption rises even faster. Overall, the chart makes it clear how energy demand keeps increasing despite short-term shocks.
+
+# VIZ-2
+
+```{r}
+
+# Summarize total consumption by energy type
+energy_type_total <- energy_clean %>%
+  group_by(Type) %>%
+  summarize(total_ej = sum(energy_ej, na.rm = TRUE), .groups = "drop") %>%
+  arrange(desc(total_ej))
+
+# Horizontal bar plot
+ggplot(energy_type_total, aes(x = reorder(Type, total_ej), y = total_ej, fill = Type)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(
+    title = "Total Global Energy Consumption by Type (1965–2021)",
+    x = "Energy Type",
+    y = "Total Energy Consumption (EJ)"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    axis.text.y = element_text(face = "bold")
+  )
+
+```
+Figure 2 shows how different types of energy have contributed to global use between 1965 and 2021. Oil clearly leads overall, with coal and natural gas not far behind. Together, these fossil fuels make up most of the world’s energy supply. Hydro and nuclear have stayed fairly steady through the years, while newer renewables like wind, solar, and biofuels are still small but growing fast.
+
+Renewables were meant to be the safer alternative for a cleaner planet, yet the world still relies on fossil fuels as its main source of energy.
+
+#VIZ-3
+
+```{r}
+
+ggplot(energy_top10_trend, aes(x = Year, y = total_ej, color = Country)) +
+  geom_line(linewidth = 1) +
+  # X-axis: every 5 years
+  scale_x_continuous(
+    breaks = seq(min(energy_top10_trend$Year),
+                 max(energy_top10_trend$Year), by = 5),
+    expand = c(0.01, 0.01)
+  ) +
+  # Y-axis: show ticks every 10 units instead of 5
+  scale_y_continuous(
+    breaks = seq(0, 160, by = 15),    # 👈 wider spacing, no overlap
+    limits = c(0, 160)
+  ) +
+  labs(
+    title = "Energy Consumption Trends of Top 10 Countries (1965–2021)",
+    x = "Year",
+    y = "Energy Consumption (EJ)",
+    color = "Country"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title      = element_text(face = "bold", hjust = 0.5, size = 15),
+    axis.text.x     = element_text(angle = 45, hjust = 1),
+    axis.text.y     = element_text(size = 10),
+    legend.position = "bottom",
+    legend.title    = element_text(face = "bold"),
+    panel.grid.minor = element_blank(),   # remove minor grid clutter
+    panel.grid.major.y = element_line(linewidth = 0.3, color = "gray80")
+  )
+
+
+```
+
+#VIZ-4
+
+```{r}
+
+# Summarize total energy by Region and Year
+energy_region <- energy_clean %>%
+  group_by(Region, Year) %>%
+  summarize(total_ej = sum(energy_ej, na.rm = TRUE), .groups = "drop")
+
+# Scatter + smooth plot faceted by Region
+ggplot(energy_region, aes(x = Year, y = total_ej)) +
+  geom_point(color = "black", size = 1) +        # black points
+  geom_smooth(color = "blue", se = FALSE, size = 0.6) +  # thinner blue line
+  facet_wrap(~ Region, nrow = 2) +
+  labs(
+    title = "Energy Consumption Trends by Region (1965–2021)",
+    x = "Year",
+    y = "Energy Consumption (EJ)"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title  = element_text(face = "bold", hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    strip.text  = element_text(face = "bold")
+  )
+
+```
+
 
