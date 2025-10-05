@@ -6,11 +6,37 @@ editor: visual
 ---
 
 ```{r}
-library(tidyverse)
+#| label: setup
+#| include: false
 
-# Load dataset
+# Set global knitr options
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE
+)
+
+# Loading the libraries
+library(readr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
 energy <- read_csv("data.csv")
+```
 
-# Preview first few rows
+
+# Data overview
+
+```{r} 
 head(energy)
 ```
+
+```{r}
+dim(energy) # Dimensions 
+```
+
+```{r}
+glimpse(energy) # Structure of the dataset 
+```
+
