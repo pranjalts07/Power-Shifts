@@ -110,7 +110,7 @@ ggplot(energy_total, aes(x = factor(Year), y = total_ej)) +
 
 
 ```
-In Fig.1 This bar chart shows that global energy consumption has more than tripled between 1965 and 2021. I noticed a slowdown in the late 1970s and early 1980s, which I found was linked to the global oil crisis, before growth picked up again. After 2000, consumption rises even faster. Overall, the chart makes it clear how energy demand keeps increasing despite short-term shocks.
+**Fig.1** This bar chart shows that global energy consumption has more than tripled between 1965 and 2021. I noticed a slowdown in the late 1970s and early 1980s, which I found was linked to the global oil crisis, before growth picked up again. After 2000, consumption rises even faster. Overall, the chart makes it clear how energy demand keeps increasing despite short-term shocks.
 
 # VIZ-2
 
@@ -138,7 +138,7 @@ ggplot(energy_type_total, aes(x = reorder(Type, total_ej), y = total_ej, fill = 
   )
 
 ```
-Figure 2 shows how different types of energy have contributed to global use between 1965 and 2021. Oil clearly leads overall, with coal and natural gas not far behind. Together, these fossil fuels make up most of the world’s energy supply. Hydro and nuclear have stayed fairly steady through the years, while newer renewables like wind, solar, and biofuels are still small but growing fast.
+**Figure 2** shows how different types of energy have contributed to global use between 1965 and 2021. Oil clearly leads overall, with coal and natural gas not far behind. Together, these fossil fuels make up most of the world’s energy supply. Hydro and nuclear have stayed fairly steady through the years, while newer renewables like wind, solar, and biofuels are still small but growing fast.
 
 Renewables were meant to be the safer alternative for a cleaner planet, yet the world still relies on fossil fuels as its main source of energy.
 
@@ -178,7 +178,7 @@ ggplot(energy_top10_trend, aes(x = Year, y = total_ej, color = Country)) +
 
 
 ```
-
+**Figure 3** shows how energy consumption patterns have evolved for the top ten countries from 1965 to 2021. The United States led global energy use for decades, but China’s rapid rise after 2000 reflects its industrial expansion and eventually pushes it past the U.S. India’s growth is steady but much lower in scale, while Japan, Germany, France, and the U.K. have largely stabilized as their economies matured and energy efficiency improved. The CIS region’s trend dips sharply in the early 1990s because of the breakup of the USSR and its economic slowdown. Canada maintains moderate, stable consumption, and most European nations show only gradual change. Together, the lines reveal a clear shift in global demand—from long-established Western economies toward fast-growing Asian nations—capturing the ongoing “power shift” in world energy use.
 #VIZ-4
 
 ```{r}
@@ -206,6 +206,7 @@ ggplot(energy_region, aes(x = Year, y = total_ej)) +
   )
 
 ```
+**Figure 4** displays regional energy consumption trends from 1965 to 2021, combining yearly data points with smoothed trend lines for clarity. The Asia-Pacific region shows the steepest and most consistent growth, overtaking North America and Europe after 2000 as industrial activity and population expanded rapidly. North America and Europe both level off after the late 1990s, reflecting mature economies and efficiency improvements. The Middle East rises steadily, fueled by oil production and domestic demand, while Africa and South & Central America show gradual but persistent increases from lower baselines. The CIS region dips sharply in the early 1990s due to the post-Soviet economic collapse, then stabilizes in later years. Overall, the figure highlights clear geographic contrasts—rapid acceleration in developing regions alongside slower, stabilized consumption in industrialized economies—capturing the global shift in energy demand patterns.
 
 #VIZ-5
 
@@ -226,6 +227,7 @@ ggplot(energy_change, aes(x = Year, y = pct_change)) +
   theme(plot.title = element_text(face="bold", hjust=0.5))
 
 ```
+**Figure 5** shows the year-to-year percentage change in global energy consumption from 1965 to 2021. The bars highlight periods of both rapid growth and slowdown. The sharp declines in the mid-1970s and early 1980s correspond to the global oil crises, when fuel shortages and economic recessions temporarily reduced demand. After the mid-1980s, fluctuations become smaller, reflecting steadier but slower growth. Another noticeable dip occurs around 2009 during the global financial crisis, and the deepest drop appears in 2020 as the COVID-19 pandemic sharply reduced energy use worldwide. The quick rebound in 2021 indicates how energy demand recovered almost immediately once restrictions eased. Overall, the plot captures how short-term global events—economic shocks, policy changes, and crises—affect the long-term upward trend in energy demand.
 
 # VIZ-6
 
@@ -261,8 +263,7 @@ ggplot(energy_region_share, aes(x = Year, y = share, fill = Category)) +
   )
 
 ```
-
-
+**Figure 6** compares renewable and non-renewable energy shares across regions from 1965 to 2021. In every region, non-renewable sources like oil, coal, and natural gas dominate the energy mix, though the share of renewables has slowly increased over time. The Asia-Pacific region, which drives most global demand, shows a noticeable but still modest rise in renewables after 2000, mainly due to expanding hydro and solar power. Europe shows the clearest shift toward renewables, reflecting stronger policy and investment in clean energy. In contrast, North America, the Middle East, and the CIS remain heavily dependent on fossil fuels. South & Central America is the only region where renewables—mainly hydro—form a substantial portion of total energy use. Overall, the figure highlights how the global energy transition remains uneven, with only gradual progress toward renewables despite decades of awareness and technological advancement.
 
 
 
