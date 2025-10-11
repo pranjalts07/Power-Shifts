@@ -17,7 +17,7 @@ All of the code is done using R and it's packages (readr, dplyr, tidyr, ggplot2)
 To reproduce the analysis locally:
 1. Clone or download the repository
    “Download ZIP”, or use the command below in your terminal:
-  > git clone https://github.com/pranjalts07/Power-Shifts.git
+   > git clone https://github.com/pranjalts07/Power-Shifts.git
 
 2. Open it in RStudio.
    
