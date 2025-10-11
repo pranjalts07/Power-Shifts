@@ -13,3 +13,17 @@ This project explores how global energy consumption has evolved over time, focus
 5. Compute and display year-to-year percentage change
 
 All of the code is done using R and it's packages (readr, dplyr, tidyr, ggplot2).
+## How to Run  
+To reproduce the analysis locally:
+1. Clone or download the repository
+   “Download ZIP”, or use the command below in your terminal:
+  > git clone https://github.com/pranjalts07/Power-Shifts.git
+
+2. Open it in RStudio.
+   
+3. Install the required R packages.
+   > install.packages(c("readr", "dplyr", "tidyr", "ggplot2"))
+
+4. Then render the analysis.
+
+This will execute all R code, produce the figures, and create a complete report showing the results of the analysis.
