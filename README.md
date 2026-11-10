@@ -1,6 +1,18 @@
 # Power Shifts: Visualizing Global Energy Transitions
 This project explores how global energy consumption has evolved over time, focusing on the shift from fossil fuels (Coal, Oil, Natural gas,Nuclear) to renewable energy sources (Hydro, Wind, Solar, Biofuel,Others).
 
+![R](https://img.shields.io/badge/R-Quarto-276DC3)
+[![License](https://img.shields.io/badge/License-MIT-c9a227)](LICENSE)
+
+<p align="center">
+  <a href="https://github.com/pranjalts07/Power-Shifts/stargazers">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/star-dark.svg">
+      <img src="assets/star-light.svg" alt="Please star the repo" width="400">
+    </picture>
+  </a>
+</p>
+
 ## Data  
 - `data.csv`: the cleaned global energy consumption dataset  
 - Derived variables, summaries, and plots are created in `Analysis.qmd`
